@@ -1,27 +1,19 @@
-<script>
+<script setup>
+import { onMounted } from 'vue'
 import { useAuthStore } from '../stores/auth'
-
-export default {
-	data() {
-		return {
-			user: null,
-		}
-	},
-	async mounted() {
-		const authStore = useAuthStore()
-		await authStore.getUser()
-		this.user = authStore.user
-	},
-}
+const authStore = useAuthStore()
+onMounted(async () => {
+	await authStore.getUser()
+})
 </script>
 
 <template>
-	<div>
-		<p v-if="user">
-			{{ user.name }}
-			{{ user.email }}
-		</p>
-		<p v-else>You are not logged in.</p>
+	<div v-if="authStore.user">
+		<h1>{{ authStore.user.name }}</h1>
+		<p>{{ authStore.user.email }}</p>
+	</div>
+	<div v-else>
+		<h1>Go and login</h1>
 	</div>
 </template>
 

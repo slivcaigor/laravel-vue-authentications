@@ -1,20 +1,11 @@
-<script>
+<script setup>
+import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
-
-export default {
-	data() {
-		return {
-			user: {
-				email: '',
-				password: '',
-			},
-		}
-	},
-	async mounted() {
-		const authStore = useAuthStore()
-		this.user = authStore
-	},
-}
+const authStore = useAuthStore()
+const user = ref({
+	email: '',
+	password: '',
+})
 </script>
 <template>
 	<section class="h-100 gradient-form" style="background-color: #eee">
@@ -34,10 +25,13 @@ export default {
 										<h4 class="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
 									</div>
 
-									<form @submit.prevent="this.user.onLogin(user)">
+									<form @submit.prevent="authStore.onLogin(user)">
 										<p>Please login to your account</p>
 
 										<div class="form-outline mb-4">
+											<label class="form-label" for="form2Example11"
+												>Email</label
+											>
 											<input
 												v-model="user.email"
 												type="email"
@@ -45,21 +39,24 @@ export default {
 												class="form-control"
 												placeholder="Phone number or email address"
 											/>
-											<label class="form-label" for="form2Example11"
-												>Username</label
-											>
+											<div v-if="authStore.errors.email">
+												<span> {{ authStore.errors.email[0] }}</span>
+											</div>
 										</div>
 
 										<div class="form-outline mb-4">
+											<label class="form-label" for="form2Example22"
+												>Password</label
+											>
 											<input
 												v-model="user.password"
 												type="password"
 												id="form2Example22"
 												class="form-control"
 											/>
-											<label class="form-label" for="form2Example22"
-												>Password</label
-											>
+											<div v-if="authStore.errors.password">
+												<span> {{ authStore.errors.password[0] }}</span>
+											</div>
 										</div>
 
 										<div class="text-center pt-1 mb-5 pb-1">
@@ -69,7 +66,9 @@ export default {
 											>
 												Log in
 											</button>
-											<a class="text-muted" href="#!">Forgot password?</a>
+											<router-link :to="{ name: 'ForgotPassword' }"
+												>Forgot password?</router-link
+											>
 										</div>
 
 										<div

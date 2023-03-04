@@ -1,22 +1,13 @@
-<script>
+<script setup>
+import { ref } from 'vue'
 import { useAuthStore } from '../stores/auth'
-
-export default {
-	data() {
-		return {
-			user: {
-				name: '',
-				email: '',
-				password: '',
-				password_confirmation: '',
-			},
-		}
-	},
-	async mounted() {
-		const authStore = useAuthStore()
-		this.user = authStore
-	},
-}
+const authStore = useAuthStore()
+const user = ref({
+	name: '',
+	email: '',
+	password: '',
+	password_confirmation: '',
+})
 </script>
 
 <template>
@@ -33,80 +24,76 @@ export default {
 									</p>
 
 									<form
-										@submit.prevent="this.user.onRegister(user)"
+										@submit.prevent="authStore.onRegister(user)"
 										class="mx-1 mx-md-4"
 									>
 										<div class="d-flex flex-row align-items-center mb-4">
 											<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
+												<label class="form-label" for="form3Example1c"
+													>Your Name</label
+												>
 												<input
 													v-model="user.name"
 													type="text"
 													id="form3Example1c"
 													class="form-control"
 												/>
-												<label class="form-label" for="form3Example1c"
-													>Your Name</label
-												>
+												<div v-if="authStore.errors.name">
+													<span> {{ authStore.errors.name[0] }}</span>
+												</div>
 											</div>
 										</div>
 
 										<div class="d-flex flex-row align-items-center mb-4">
 											<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
+												<label class="form-label" for="form3Example3c"
+													>Your Email</label
+												>
 												<input
 													v-model="user.email"
 													type="email"
 													id="form3Example3c"
 													class="form-control"
 												/>
-												<label class="form-label" for="form3Example3c"
-													>Your Email</label
-												>
+												<div v-if="authStore.errors.email">
+													<span> {{ authStore.errors.email[0] }}</span>
+												</div>
 											</div>
 										</div>
 
 										<div class="d-flex flex-row align-items-center mb-4">
 											<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
+												<label class="form-label" for="form3Example4c"
+													>Password</label
+												>
 												<input
 													v-model="user.password"
 													type="password"
 													id="form3Example4c"
 													class="form-control"
 												/>
-												<label class="form-label" for="form3Example4c"
-													>Password</label
-												>
+												<div v-if="authStore.errors.password">
+													<span> {{ authStore.errors.password[0] }}</span>
+												</div>
 											</div>
 										</div>
 
 										<div class="d-flex flex-row align-items-center mb-4">
 											<i class="fas fa-key fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
+												<label class="form-label" for="form3Example4cd"
+													>Repeat your password</label
+												>
 												<input
 													v-model="user.password_confirmation"
 													type="password"
 													id="form3Example4cd"
 													class="form-control"
 												/>
-												<label class="form-label" for="form3Example4cd"
-													>Repeat your password</label
-												>
 											</div>
-										</div>
-
-										<div class="form-check d-flex justify-content-center mb-5">
-											<input
-												class="form-check-input me-2"
-												type="checkbox"
-												value=""
-												id="form2Example3c"
-											/>
-											<label class="form-check-label" for="form2Example3">
-												I agree all statements in
-												<a href="#!">Terms of service</a>
-											</label>
 										</div>
 
 										<div
