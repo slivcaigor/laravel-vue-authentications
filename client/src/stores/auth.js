@@ -6,11 +6,13 @@ export const useAuthStore = defineStore('auth', {
 		authUser: null,
 		authErrors: [],
 		authStatus: null,
+		isAuthenticated: false,
 	}),
 	getters: {
 		user: state => state.authUser,
 		errors: state => state.authErrors,
 		status: state => state.authStatus,
+		authenticated: state => state.isAuthenticated,
 	},
 	actions: {
 		async getToken() {
@@ -18,8 +20,14 @@ export const useAuthStore = defineStore('auth', {
 		},
 		async getUser() {
 			await this.getToken()
-			const data = await axios.get('/api/user')
-			this.authUser = data.data
+			try {
+				const data = await axios.get('/api/user')
+				this.authUser = data.data
+			} catch (error) {
+				if (error.response.status === 401) {
+					console.log(error)
+				}
+			}
 		},
 		async onLogin(data) {
 			this.authErrors = []
@@ -35,6 +43,7 @@ export const useAuthStore = defineStore('auth', {
 					this.authErrors = error.response.data.errors
 				}
 			}
+			this.isAuthenticated = true
 		},
 		async onRegister(data) {
 			this.authErrors = []
@@ -57,6 +66,8 @@ export const useAuthStore = defineStore('auth', {
 		async onLogout() {
 			await axios.post('/logout')
 			this.authUser = null
+			this.isAuthenticated = false
+			this.router.push('/')
 		},
 		async onForgotPassword(email) {
 			this.authErrors = []

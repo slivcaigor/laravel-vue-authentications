@@ -23,5 +23,8 @@ const authStore = useAuthStore()
 	</template>
 	<template v-else>
 		<button @click="authStore.onLogout" class="">Logout</button>
+		<li>
+			<router-link :to="{ name: 'Dashboard' }">Dashboard</router-link>
+		</li>
 	</template>
 </template>
