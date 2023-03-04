@@ -16,8 +16,6 @@ export default {
 				password: this.password,
 			})
 			this.$router.push('/')
-			const data = await axios.get('/api/user')
-			console.log(data)
 		},
 	},
 }
