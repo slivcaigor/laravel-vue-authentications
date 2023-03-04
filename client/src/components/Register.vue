@@ -1,4 +1,28 @@
-<script></script>
+<script>
+import axios from 'axios'
+export default {
+	data() {
+		return {
+			name: '',
+			email: '',
+			password: '',
+			password_confirmation: '',
+		}
+	},
+	methods: {
+		async onRegister() {
+			await axios.get('/sanctum/csrf-cookie')
+			await axios.post('/register', {
+				name: this.name,
+				email: this.email,
+				password: this.password,
+				password_confirmation: this.password_confirmation,
+			})
+			this.$router.push('/')
+		},
+	},
+}
+</script>
 
 <template>
 	<section class="vh-100" style="background-color: #eee">
@@ -13,11 +37,12 @@
 										Sign up
 									</p>
 
-									<form class="mx-1 mx-md-4">
+									<form @submit.prevent="onRegister" class="mx-1 mx-md-4">
 										<div class="d-flex flex-row align-items-center mb-4">
 											<i class="fas fa-user fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 												<input
+													v-model="name"
 													type="text"
 													id="form3Example1c"
 													class="form-control"
@@ -32,6 +57,7 @@
 											<i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 												<input
+													v-model="email"
 													type="email"
 													id="form3Example3c"
 													class="form-control"
@@ -46,6 +72,7 @@
 											<i class="fas fa-lock fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 												<input
+													v-model="password"
 													type="password"
 													id="form3Example4c"
 													class="form-control"
@@ -60,6 +87,7 @@
 											<i class="fas fa-key fa-lg me-3 fa-fw"></i>
 											<div class="form-outline flex-fill mb-0">
 												<input
+													v-model="password_confirmation"
 													type="password"
 													id="form3Example4cd"
 													class="form-control"
@@ -86,7 +114,7 @@
 										<div
 											class="d-flex justify-content-center mx-4 mb-3 mb-lg-4"
 										>
-											<button type="button" class="btn btn-primary btn-lg">
+											<button type="submit" class="btn btn-primary btn-lg">
 												Register
 											</button>
 										</div>
