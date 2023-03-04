@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios'
+import { useAuthStore } from '../stores/auth'
 
 export default {
 	data() {
@@ -8,15 +8,21 @@ export default {
 		}
 	},
 	async mounted() {
-		const data = await axios.get('/api/user')
-		this.user = data.data
+		const authStore = useAuthStore()
+		await authStore.getUser()
+		this.user = authStore.user
 	},
 }
 </script>
 
 <template>
-	<h1>{{ user?.name }}</h1>
-	<h1>{{ user?.email }}</h1>
+	<div>
+		<p v-if="user">
+			{{ user.name }}
+			{{ user.email }}
+		</p>
+		<p v-else>You are not logged in.</p>
+	</div>
 </template>
 
 <style scoped></style>

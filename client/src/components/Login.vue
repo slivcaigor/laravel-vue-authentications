@@ -1,22 +1,18 @@
 <script>
-import axios from 'axios'
+import { useAuthStore } from '../stores/auth'
 
 export default {
 	data() {
 		return {
-			email: '',
-			password: '',
+			user: {
+				email: '',
+				password: '',
+			},
 		}
 	},
-	methods: {
-		async onLogin() {
-			await axios.get('/sanctum/csrf-cookie')
-			await axios.post('/login', {
-				email: this.email,
-				password: this.password,
-			})
-			this.$router.push('/')
-		},
+	async mounted() {
+		const authStore = useAuthStore()
+		this.user = authStore
 	},
 }
 </script>
@@ -37,13 +33,13 @@ export default {
 										/>
 										<h4 class="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
 									</div>
-									{{ user }}
-									<form @submit.prevent="onLogin">
+
+									<form @submit.prevent="this.user.onLogin(user)">
 										<p>Please login to your account</p>
 
 										<div class="form-outline mb-4">
 											<input
-												v-model="email"
+												v-model="user.email"
 												type="email"
 												id="form2Example11"
 												class="form-control"
@@ -56,7 +52,7 @@ export default {
 
 										<div class="form-outline mb-4">
 											<input
-												v-model="password"
+												v-model="user.password"
 												type="password"
 												id="form2Example22"
 												class="form-control"
