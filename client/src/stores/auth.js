@@ -20,6 +20,9 @@ export const useAuthStore = defineStore('auth', {
 		},
 		async getUser() {
 			await this.getToken()
+			if (!this.isAuthenticated) {
+				return
+			}
 			try {
 				const data = await axios.get('/api/user')
 				this.authUser = data.data
