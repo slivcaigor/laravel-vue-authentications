@@ -1,13 +1,21 @@
-<script setup>
-import { ref } from 'vue'
+<script>
 import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
-const user = ref({
-	name: '',
-	email: '',
-	password: '',
-	password_confirmation: '',
-})
+
+export default {
+	data() {
+		return {
+			authStore: useAuthStore(),
+			user: {
+				name: '',
+				surname: '',
+				birth_day: '',
+				email: '',
+				password: '',
+				password_confirmation: '',
+			},
+		}
+	},
+}
 </script>
 
 <template>
@@ -41,6 +49,42 @@ const user = ref({
 												/>
 												<div v-if="authStore.errors.name">
 													<span> {{ authStore.errors.name[0] }}</span>
+												</div>
+											</div>
+										</div>
+
+										<div class="d-flex flex-row align-items-center mb-4">
+											<i class="fas fa-user fa-lg me-3 fa-fw"></i>
+											<div class="form-outline flex-fill mb-0">
+												<label class="form-label" for="form3Example3231c"
+													>Your Surname</label
+												>
+												<input
+													v-model="user.surname"
+													type="text"
+													id="form3Example3231c"
+													class="form-control"
+												/>
+												<div v-if="authStore.errors.surname">
+													<span> {{ authStore.errors.surname[0] }}</span>
+												</div>
+											</div>
+										</div>
+
+										<div class="d-flex flex-row align-items-center mb-4">
+											<i class="fas fa-user fa-lg me-3 fa-fw"></i>
+											<div class="form-outline flex-fill mb-0">
+												<label class="form-label" for="form3Example3231c222"
+													>Your Birthday</label
+												>
+												<input
+													v-model="user.birth_day"
+													type="date"
+													id="form3Example3231c222"
+													class="form-control"
+												/>
+												<div v-if="authStore.errors.birth_day">
+													<span> {{ authStore.errors.birth_day[0] }}</span>
 												</div>
 											</div>
 										</div>

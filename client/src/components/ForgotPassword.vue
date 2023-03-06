@@ -1,9 +1,14 @@
-<script setup>
-import { ref } from 'vue'
+<script>
 import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
 
-const email = ref('')
+export default {
+	data() {
+		return {
+			authStore: useAuthStore(),
+			email: '',
+		}
+	},
+}
 </script>
 <template>
 	<div class="card text-center" style="width: 300px">

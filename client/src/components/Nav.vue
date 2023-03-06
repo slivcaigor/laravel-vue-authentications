@@ -1,6 +1,13 @@
-<script setup>
+<script>
 import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
+
+export default {
+	data() {
+		return {
+			authStore: useAuthStore(),
+		}
+	},
+}
 </script>
 <template>
 	<nav>

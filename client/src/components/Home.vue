@@ -1,10 +1,16 @@
-<script setup>
-import { onMounted } from 'vue'
+<script>
 import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
-onMounted(async () => {
-	await authStore.getUser()
-})
+
+export default {
+	data() {
+		return {
+			authStore: useAuthStore(),
+		}
+	},
+	mounted() {
+		this.authStore.getUser()
+	},
+}
 </script>
 
 <template>

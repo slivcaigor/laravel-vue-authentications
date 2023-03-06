@@ -1,17 +1,21 @@
-<script setup>
-import { ref } from 'vue'
+<script>
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 
-const route = useRoute()
-const authStore = useAuthStore()
-
-const form = ref({
-	password: '',
-	password_confirmation: '',
-	email: route.query.email,
-	token: route.params.token,
-})
+export default {
+	data() {
+		return {
+			route: useRoute(),
+			authStore: useAuthStore(),
+			form: {
+				password: '',
+				password_confirmation: '',
+				email: route.query.email,
+				token: route.params.token,
+			},
+		}
+	},
+}
 </script>
 <template>
 	<div class="card text-center" style="width: 300px">

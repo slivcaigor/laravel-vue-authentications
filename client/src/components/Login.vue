@@ -1,11 +1,17 @@
-<script setup>
-import { ref } from 'vue'
+<script>
 import { useAuthStore } from '../stores/auth'
-const authStore = useAuthStore()
-const user = ref({
-	email: '',
-	password: '',
-})
+
+export default {
+	data() {
+		return {
+			authStore: useAuthStore(),
+			user: {
+				email: '',
+				password: '',
+			},
+		}
+	},
+}
 </script>
 <template>
 	<section class="h-100 gradient-form" style="background-color: #eee">
